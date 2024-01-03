@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:tree_view_desafio/app/modules/assets/domain/usecases/filter_data.dart';
 import 'package:tree_view_desafio/app/modules/assets/domain/usecases/list_data.dart';
 
 import '../data/assets_repository.dart';
@@ -16,7 +17,8 @@ class AssetsBinding extends Bindings {
     Get.lazyPut<IPopulateData>(
         () => PopulateData(Get.find(), Get.find(), Get.find()));
     Get.lazyPut<IListData>(() => ListData(Get.find(), Get.find()));
+    Get.lazyPut<IFilterData>(() => FilterData());
     Get.lazyPut<AssetsController>(
-        () => AssetsController(Get.find(), Get.find(), Get.find()));
+        () => AssetsController(Get.find(), Get.find(), Get.find(), Get.find()));
   }
 }

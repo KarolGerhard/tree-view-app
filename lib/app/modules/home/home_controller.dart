@@ -2,11 +2,10 @@
 import 'package:get/get.dart';
 
 import '../assets/data/assets_repository.dart';
-import '../assets/domain/models/assets_model.dart';
+import '../assets/domain/models/asset_model.dart';
 
 class HomeController extends GetxController {
-  List<AssetsModel> assets = [];
-
+  
   HomeController();
 
   @override

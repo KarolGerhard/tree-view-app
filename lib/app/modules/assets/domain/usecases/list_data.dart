@@ -3,6 +3,11 @@ import 'package:tree_view_desafio/app/modules/assets/data/local_repository.dart'
 import 'package:tree_view_desafio/app/modules/assets/domain/entities/asset_entity.dart';
 import 'package:tree_view_desafio/app/modules/assets/domain/entities/local_entity.dart';
 
+import '../models/asset_model.dart';
+import '../models/compoments_model.dart';
+import '../models/item_model.dart';
+import '../models/local_model.dart';
+
 abstract class IListData {
   Future<List<Item>> call();
 }
@@ -23,8 +28,8 @@ class ListData implements IListData {
     for (LocalEntity localEntity in locals) {
       final local = Local(localEntity.id, localEntity.name);
 
-      local.subLocals = await getAllSubLocals(localEntity);
-      local.assets = await getAllSubAssets(localEntity);
+      local.addItems(await getAllSubLocals(localEntity));
+      local.addItems(await getAllSubAssets(localEntity));
 
       items.add(local);
     }
@@ -46,9 +51,8 @@ class ListData implements IListData {
     List<LocalEntity> localsEntity =
         await localRepository.getLocationsByParentId(localEntity.id);
     for (LocalEntity localEntity in localsEntity) {
-      final assets = await getAllSubAssets(localEntity);
       final local = Local(localEntity.id, localEntity.name);
-      local.assets = assets;
+      local.addItems(await getAllSubAssets(localEntity));
       locals.add(local);
     }
     return locals;
@@ -61,17 +65,14 @@ class ListData implements IListData {
         await assetRepository.getAssetsByLocationId(localEntity.id);
 
     for (AssetEntity assetEntity in assetsEntity) {
+      final asset = Asset.fromEntity(assetEntity);
       final subAssets =
           await assetRepository.getAssetsByParentId(assetEntity.id);
-      final asset = Asset.fromEntity(assetEntity);
-      asset.subAssets = subAssets
-          .where((element) => element.sensorType == null)
-          .map((e) => Asset.fromEntity(e))
-          .toList();
-      asset.components = subAssets
-          .where((element) => element.sensorType != null)
-          .map((e) => Component.fromEntity(e))
-          .toList();
+      asset.addItems(subAssets
+          .map<Item>((e) => e.sensorType == null
+              ? Asset.fromEntity(e)
+              : Component.fromEntity(e))
+          .toList());
       getAllSubComponents(asset);
       assets.add(asset);
     }
@@ -79,75 +80,14 @@ class ListData implements IListData {
   }
 
   Future getAllSubComponents(Asset asset) async {
-    for (Asset subAsset in asset.subAssets) {
+    for (Asset subAsset in asset.subItems.whereType<Asset>()) {
       final subComponents =
           await assetRepository.getAssetsByParentId(subAsset.id);
-      subAsset.components = subComponents
+      final parsedComponents = subComponents
           .where((element) => element.sensorType != null)
           .map((e) => Component.fromEntity(e))
           .toList();
+      subAsset.addItems(parsedComponents);
     }
-  }
-}
-
-class Item {
-  final String id;
-  final String name;
-
-  Item(this.id, this.name);
-}
-
-class Local extends Item {
-  List<Asset> assets;
-  List<Local> subLocals;
-
-  List<Item> get subItems {
-    List<Item> subItems = [];
-    subItems.addAll(assets);
-    subItems.addAll(subLocals);
-    return subItems;
-  }
-
-  Local(String id, String name)
-      : assets = [],
-        subLocals = [],
-        super(id, name);
-}
-
-class Asset extends Item {
-  final String? locationId;
-  List<Asset> subAssets;
-  List<Component> components;
-  final String? sensorType;
-  final String? status;
-
-  Asset(String id, String name, this.locationId, this.sensorType, this.status)
-      : subAssets = [],
-        components = [],
-        super(id, name);
-
-  factory Asset.fromEntity(AssetEntity assetEntity) {
-    return Asset(
-      assetEntity.id,
-      assetEntity.name,
-      assetEntity.locationId,
-      assetEntity.sensorType,
-      assetEntity.status,
-    );
-  }
-}
-
-class Component extends Asset {
-  Component(String id, String name, String? locationId, String? sensorType,
-      String? status)
-      : super(id, name, locationId, sensorType, status);
-  factory Component.fromEntity(AssetEntity assetEntity) {
-    return Component(
-      assetEntity.id,
-      assetEntity.name,
-      assetEntity.locationId,
-      assetEntity.sensorType,
-      assetEntity.status,
-    );
   }
 }

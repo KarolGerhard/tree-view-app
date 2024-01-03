@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tree_view_desafio/app/modules/assets/domain/usecases/list_data.dart';
+
+import '../../domain/models/asset_model.dart';
+import '../../domain/models/compoments_model.dart';
+import '../../domain/models/item_model.dart';
+import '../../domain/models/local_model.dart';
 
 extension ItemExtensions on Item {
   String get icon {
