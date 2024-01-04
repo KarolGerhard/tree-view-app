@@ -6,9 +6,9 @@ abstract class ILocalRepository {
   Future<void> saveLocations(List<LocalEntity> locations);
   Future<List<LocalEntity>> getLocations();
   Future<LocalEntity?> getLocationById(int id);
-  Future<List<LocalEntity>> getLocationsWithoutParent();
+  Future<List<LocalEntity>> getLocationsWithoutParent(String unit);
   Future<List<LocalEntity>> getLocationsByParentId(String parentId);
-  Future<bool> isDatabaseEmpty();
+  Future<bool> isDatabaseEmpty(String unit);
 }
 
 class LocalRepository implements ILocalRepository {
@@ -24,6 +24,7 @@ class LocalRepository implements ILocalRepository {
         'id': location.id,
         'name': location.name,
         'parentId': location.parentId,
+        'unit': location.unit,
       });
     }
     await batch.commit();
@@ -48,17 +49,19 @@ class LocalRepository implements ILocalRepository {
   }
 
   @override
-  Future<List<LocalEntity>> getLocationsWithoutParent() async {
+  Future<List<LocalEntity>> getLocationsWithoutParent(String unit) async {
     final List<Map<String, dynamic>> maps =
         await (await dbHelper.database).query(
       'LocalEntity',
-      where: 'parentId IS NULL',
+      where: 'parentId IS NULL AND unit = ?',
+      whereArgs: [unit],
     );
     return List.generate(maps.length, (i) {
       return LocalEntity(
         id: maps[i]['id'],
         name: maps[i]['name'],
         parentId: maps[i]['parentId'],
+        unit: maps[i]['unit'],
       );
     });
   }
@@ -95,9 +98,9 @@ class LocalRepository implements ILocalRepository {
   }
 
   @override
-  Future<bool> isDatabaseEmpty() async {
+  Future<bool> isDatabaseEmpty(String unit) async {
     final count = Sqflite.firstIntValue(await (await dbHelper.database)
-        .rawQuery('SELECT COUNT(*) FROM LocalEntity'));
+        .rawQuery('SELECT COUNT(*) FROM LocalEntity WHERE unit = ?', [unit]));
     return count == 0;
   }
 }

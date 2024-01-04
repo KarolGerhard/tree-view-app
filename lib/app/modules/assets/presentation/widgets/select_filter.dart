@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../domain/models/button_filter_type.dart';
+import '../utils/theme.dart';
 
 class SelectFilter extends StatefulWidget {
   final void Function(ButtonFilterType)? onChanged;
@@ -42,7 +44,7 @@ class _SelectFilterState extends State<SelectFilter> {
               ),
               borderRadius: BorderRadius.circular(8),
               color: currentValue == ButtonFilterType.sensor
-                  ? Colors.blueAccent
+                  ? ThemeApp.theme.primaryColor
                   : Colors.white,
             ),
             child: const Row(

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'app/modules/home/home_binding.dart';
 import 'app/modules/home/home_page.dart';
 import 'app/routes/app_pages.dart';
+import 'app/modules/assets/presentation/utils/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeApp.theme,
       initialBinding: HomeBinding(),
       home: HomePage(),
       getPages: AppPages.pages,

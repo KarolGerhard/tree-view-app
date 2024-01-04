@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:tree_view_desafio/app/modules/assets/domain/usecases/filter_data.dart';
 import 'package:tree_view_desafio/app/modules/assets/domain/usecases/list_data.dart';
@@ -15,12 +16,13 @@ class AssetsController extends GetxController {
   final IListData listData;
   final IFilterData filterData;
   bool isLoading = true;
+  String? unit;
 
   AssetsController(
       this.repository, this.populateData, this.listData, this.filterData);
 
   Future<void> getAssets() async {
-    assets = await listData();
+    assets = await listData(unit!);
     fulllData = assets;
     if (assets.isNotEmpty) {
       isLoading = false;
@@ -30,8 +32,9 @@ class AssetsController extends GetxController {
 
   @override
   void onInit() {
+    unit = Get.arguments;
     super.onInit();
-    populateData().then((value) => getAssets());
+    populateData(unit!).then((value) => getAssets());
   }
 
   search(FilterOptions options) async {

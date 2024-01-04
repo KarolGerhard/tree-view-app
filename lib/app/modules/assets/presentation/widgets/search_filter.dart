@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tree_view_desafio/app/modules/assets/domain/usecases/filter_data.dart';
 import 'package:tree_view_desafio/app/modules/assets/presentation/widgets/select_filter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../domain/models/button_filter_type.dart';
 
@@ -52,7 +54,8 @@ class _SearchFilterState extends State<SearchFilter> {
             ),
             child: TextFormField(
               cursorColor: Colors.grey,
-              style: const TextStyle(color: Color(0xFF8e98a3)),
+              style: GoogleFonts.inter(
+                  textStyle: const TextStyle(color: Color(0xFF8e98a3))),
               onChanged: _onChanged,
               initialValue: currentValue,
               decoration: InputDecoration(

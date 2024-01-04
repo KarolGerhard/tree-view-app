@@ -4,7 +4,7 @@ import '../../data/assets_repository.dart';
 import '../../data/file_repository.dart';
 
 abstract class IPopulateData {
-  Future<void> call();
+  Future<void> call(String unit);
 }
 
 class PopulateData implements IPopulateData {
@@ -12,18 +12,20 @@ class PopulateData implements IPopulateData {
   final IAssetsRepository assetsRepository;
   final ILocalRepository localRepository;
 
+ 
+
   PopulateData(
       this.fileRepository, this.assetsRepository, this.localRepository);
 
   @override
-  Future<void> call() async {
-    if (await localRepository.isDatabaseEmpty()) {
-      final locations = await fileRepository.getLocationsFromFile();
+  Future<void> call(String unit) async {
+    if (await localRepository.isDatabaseEmpty(unit)) {
+      final locations = await fileRepository.getLocationsFromFile(unit);
       await localRepository.saveLocations(locations);
     }
 
-    if (await assetsRepository.isDatabaseEmpty()) {
-      final assets = await fileRepository.getAssetsFromFile();
+    if (await assetsRepository.isDatabaseEmpty(unit)) {
+      final assets = await fileRepository.getAssetsFromFile(unit);
       await assetsRepository.saveAssets(assets);
     }
   }

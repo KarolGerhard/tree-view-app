@@ -9,7 +9,7 @@ import '../models/item_model.dart';
 import '../models/local_model.dart';
 
 abstract class IListData {
-  Future<List<Item>> call();
+  Future<List<Item>> call(String unit);
 }
 
 class ListData implements IListData {
@@ -19,11 +19,11 @@ class ListData implements IListData {
   ListData(this.localRepository, this.assetRepository);
 
   @override
-  Future<List<Item>> call() async {
+  Future<List<Item>> call(String unit) async {
     List<Item> items = [];
 
     List<LocalEntity> locals =
-        await localRepository.getLocationsWithoutParent();
+        await localRepository.getLocationsWithoutParent(unit);
 
     for (LocalEntity localEntity in locals) {
       final local = Local(localEntity.id, localEntity.name);
@@ -35,7 +35,7 @@ class ListData implements IListData {
     }
 
     List<AssetEntity> assetsWithoutParentAndLocation =
-        await assetRepository.getAssetsWithoutParentAndLocation();
+        await assetRepository.getAssetsWithoutParentAndLocation(unit);
     var assetsWithoutParents = assetsWithoutParentAndLocation
         .map((e) => e.sensorType == null
             ? Asset.fromEntity(e)

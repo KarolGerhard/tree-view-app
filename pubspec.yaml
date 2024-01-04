@@ -35,6 +35,8 @@ dependencies:
   sqflite: ^2.3.0
   path: ^1.8.3
   animated_tree_view: ^2.2.0
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -45,4 +47,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/jaguar_unit_json/
+    - assets/tobias_unit_json/
+    - assets/apex_unit_json/
     - assets/icons/
+    - assets/images/

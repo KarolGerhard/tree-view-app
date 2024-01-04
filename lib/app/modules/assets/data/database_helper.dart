@@ -34,7 +34,8 @@ class DatabaseHelper {
           CREATE TABLE LocalEntity (
             id TEXT PRIMARY KEY,
             name TEXT,
-            parentId TEXT
+            parentId TEXT,
+            unit TEXT
           )
         ''');
 
@@ -45,7 +46,8 @@ class DatabaseHelper {
             locationId TEXT,
             parentId TEXT,
             sensorType TEXT,
-            status TEXT
+            status TEXT,
+            unit TEXT
           )
         ''');
       },

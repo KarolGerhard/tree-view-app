@@ -6,8 +6,8 @@ abstract class IAssetsRepository {
   Future<void> saveAssets(List<AssetEntity> assets);
   Future<List<AssetEntity>> getAssetsByParentId(String parentId);
   Future<List<AssetEntity>> getAssetsByLocationId(String locationId);
-  Future<List<AssetEntity>> getAssetsWithoutParentAndLocation();
-  Future<bool> isDatabaseEmpty();
+  Future<List<AssetEntity>> getAssetsWithoutParentAndLocation(String unit);
+  Future<bool> isDatabaseEmpty(String unit);
 }
 
 class AssetsRepository implements IAssetsRepository {
@@ -26,6 +26,7 @@ class AssetsRepository implements IAssetsRepository {
         'parentId': asset.parentId,
         'sensorType': asset.sensorType,
         'status': asset.status,
+        'unit': asset.unit,
       });
     }
     await batch.commit();
@@ -73,11 +74,12 @@ class AssetsRepository implements IAssetsRepository {
   }
 
   @override
-  Future<List<AssetEntity>> getAssetsWithoutParentAndLocation() async {
+  Future<List<AssetEntity>> getAssetsWithoutParentAndLocation(String unit) async {
     final List<Map<String, dynamic>> maps =
         await (await dbHelper.database).query(
       'AssetEntity',
-      where: 'parentId IS NULL AND locationId IS NULL',
+      where: 'parentId IS NULL AND locationId IS NULL AND unit = ?',
+      whereArgs: [unit],
     );
     return List.generate(maps.length, (i) {
       return AssetEntity(
@@ -87,14 +89,15 @@ class AssetsRepository implements IAssetsRepository {
         parentId: maps[i]['parentId'],
         sensorType: maps[i]['sensorType'],
         status: maps[i]['status'],
+        unit: maps[i]['unit'],
       );
     });
   }
 
   @override
-  Future<bool> isDatabaseEmpty() async {
+  Future<bool> isDatabaseEmpty(String unit) async {
     final count = Sqflite.firstIntValue(await (await dbHelper.database)
-        .rawQuery('SELECT COUNT(*) FROM AssetEntity'));
+        .rawQuery('SELECT COUNT(*) FROM AssetEntity WHERE unit = ?', [unit]));
     return count == 0;
   }
 }
