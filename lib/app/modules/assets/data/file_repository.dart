@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/services.dart' as root_bundle;
 import 'package:tree_view_desafio/app/modules/assets/domain/entities/asset_entity.dart';
 import 'package:tree_view_desafio/app/modules/assets/domain/entities/local_entity.dart';
@@ -20,7 +19,6 @@ class FileRepository implements IFileRepository {
   Future<List<AssetEntity>> getAssetsFromFile(String unit) async {
     final String response =
         await root_bundle.rootBundle.loadString('${units[unit]!}assets.json');
-    // .loadString('assets/jaguar_unit_json/assets.json');
     final data = await json.decode(response);
 
     return data
@@ -33,7 +31,6 @@ class FileRepository implements IFileRepository {
   Future<List<LocalEntity>> getLocationsFromFile(String unit) async {
     final String response = await root_bundle.rootBundle
         .loadString('${units[unit]!}locations.json');
-    // .loadString('assets/jaguar_unit_json/locations.json');
     final data = await json.decode(response);
 
     return data.map<LocalEntity>((json) => LocalEntity.fromMap(json).copyWith(unit: unit)).toList();

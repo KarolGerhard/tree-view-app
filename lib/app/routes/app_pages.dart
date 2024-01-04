@@ -15,7 +15,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.assets,
-      page: () => AssetsPage(),
+      page: () => const AssetsPage(),
       binding: AssetsBinding(),
     ),
   ];

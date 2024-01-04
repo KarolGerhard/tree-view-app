@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import '../../domain/models/button_filter_type.dart';
 import '../utils/theme.dart';
 
@@ -36,8 +34,8 @@ class _SelectFilterState extends State<SelectFilter> {
         GestureDetector(
           onTap: () => _onChanged(ButtonFilterType.sensor),
           child: Container(
-            padding: const EdgeInsets.all(12),
-            height: 50,
+            padding: const EdgeInsets.all(8),
+            height: 40,
             decoration: BoxDecoration(
               border: Border.all(
                 color: const Color(0xFFD8DFE6),
@@ -47,13 +45,25 @@ class _SelectFilterState extends State<SelectFilter> {
                   ? ThemeApp.theme.primaryColor
                   : Colors.white,
             ),
-            child: const Row(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.bolt, color: Color(0xFF8e98a3)),
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: Icon(
+                    Icons.bolt,
+                    color: currentValue == ButtonFilterType.sensor
+                        ? Colors.white
+                        : Color(0xFF8e98a3),
+                    size: 20,
+                  ),
+                ),
                 Text(
                   "Sensor de Energia",
                   style: TextStyle(
-                    color: Color(0xFF77818C),
+                    color: currentValue == ButtonFilterType.sensor
+                        ? Colors.white
+                        : const Color(0xFF77818C),
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -62,31 +72,40 @@ class _SelectFilterState extends State<SelectFilter> {
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 8),
         GestureDetector(
           onTap: () => _onChanged(ButtonFilterType.critical),
           child: Container(
-            padding: const EdgeInsets.all(12),
-            height: 50,
+            padding: const EdgeInsets.all(8),
+            height: 40,
             decoration: BoxDecoration(
               border: Border.all(
                 color: const Color(0xFFD8DFE6),
               ),
               borderRadius: BorderRadius.circular(8),
               color: currentValue == ButtonFilterType.critical
-                  ? Colors.blueAccent
+                  ? ThemeApp.theme.primaryColor
                   : Colors.white,
             ),
-            child: const Row(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.info_outline,
-                  color: Color(0xFF8e98a3),
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: Icon(
+                    Icons.info_outline,
+                    size: 20,
+                    color: currentValue == ButtonFilterType.critical
+                        ? Colors.white
+                        : Color(0xFF8e98a3),
+                  ),
                 ),
                 Text(
                   "Crítico",
                   style: TextStyle(
-                    color: Color(0xFF77818C),
+                    color: currentValue == ButtonFilterType.critical
+                        ? Colors.white
+                        : const Color(0xFF77818C),
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),

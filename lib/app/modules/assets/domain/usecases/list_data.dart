@@ -51,7 +51,7 @@ class ListData implements IListData {
     List<LocalEntity> localsEntity =
         await localRepository.getLocationsByParentId(localEntity.id);
     for (LocalEntity localEntity in localsEntity) {
-      final local = Local(localEntity.id, localEntity.name);
+      final local = Local(localEntity.id, localEntity.name, parentId: localEntity.parentId);
       local.addItems(await getAllSubAssets(localEntity));
       locals.add(local);
     }

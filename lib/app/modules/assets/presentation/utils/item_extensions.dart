@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../domain/models/asset_model.dart';
 import '../../domain/models/compoments_model.dart';
 import '../../domain/models/item_model.dart';
@@ -7,8 +6,11 @@ import '../../domain/models/local_model.dart';
 
 extension ItemExtensions on Item {
   String get icon {
-    if (this is Component) return "assets/icons/components_icon.png";
     if (this is Local) return "assets/icons/location_icon.png";
+    if ((this is Component && (this as Component).sensorType != null) ||
+        (this is Asset && (this as Asset).sensorType != null)) {
+      return "assets/icons/components_icon.png";
+    }
     if (this is Asset) return "assets/icons/assets_icon.png";
     return "assets/icons/components_icon.png";
   }
@@ -16,10 +18,7 @@ extension ItemExtensions on Item {
   Icon? get sensorIcon {
     if (this is! Asset) return null;
 
-    return SensorIconBuilder()
-        // .setSensorType((this as Asset).sensorType)
-        .setStatus((this as Asset).status)
-        .build();
+    return SensorIconBuilder().setStatus((this as Asset).status).build();
   }
 }
 
@@ -32,16 +31,6 @@ class SensorIconBuilder {
   static const OPERATING = 'operating';
 
   SensorIconBuilder();
-
-  // setSensorType(String? sensorType) {
-  //   if (sensorType == null) return this;
-  //   if (status == 'energy') {
-  //     icon = Icons.bolt;
-  //   } else {
-  //     icon = Icons.circle;
-  //   }
-  //   return this;
-  // }
 
   setStatus(String? status) {
     if (status == null) return this;

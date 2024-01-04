@@ -1,9 +1,12 @@
-import 'asset_model.dart';
 import 'item_model.dart';
 
 class Local extends Item {
+  Local(String id, String name, {super.parentId}) : super(id, name);
 
-  Local(String id, String name) : super(id, name);
+  @override
+  Local copy() {
+    return Local(id, name, parentId: parentId);
+  }
 
   @override
   Local copyWith({

@@ -51,11 +51,13 @@ class AssetsPage extends StatelessWidget {
           tree: node,
           color: Colors.black,
           icon: Icons.keyboard_arrow_right,
-          // padding: const EdgeInsets.all(4),
         );
       },
       builder: (context, node) => ListTile(
-        leading: Image.asset(node.data?.icon ?? '', width: 20, height: 20),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Image.asset(node.data?.icon ?? '', width: 20, height: 20),
+        ),
         title: Text(node.data?.name ?? ''),
         trailing: node.data?.sensorIcon,
       ),

@@ -1,6 +1,4 @@
-import 'package:tree_view_desafio/app/modules/assets/domain/models/asset_model.dart';
-
-import '../models/button_filter_type.dart';
+import '../models/filter_options.dart';
 import '../models/item_model.dart';
 
 abstract class IFilterData {
@@ -8,86 +6,63 @@ abstract class IFilterData {
 }
 
 class FilterData implements IFilterData {
-  @override
+ @override
   Future<List<Item>> call(List<Item> items, FilterOptions options) async {
-    return items
-        .where((item) => FilterBuilder(filterOptions: options).build(item))
+    if (options.hasNoFilter) return items;
+
+    Map<String, Item> acumulador = <String, Item>{};
+    Set<Item> result = {};
+
+    _filterItems(options, items, result, acumulador);
+    Map<String, Item> pushedItems = {};
+    return result
+        .map((item) => _findParent(acumulador, pushedItems, item))
+        .toSet()
         .toList();
   }
-}
 
-class FilterOptions {
-  final String? name;
-  final ButtonFilterType? buttonFilterType;
+  Item _findParent(
+    Map<String, Item> allItems,
+    Map<String, Item> pushedParents,
+    Item current,
+  ) {
+    if (!current.hasParent) return current;
 
-  FilterOptions({this.name, this.buttonFilterType});
-}
+    final parent = allItems[current.parentId];
+    pushedParents[parent!.id] ??= parent.copy();
+    final copyParent = pushedParents[parent.id]!..addIfNotExists(current);
 
-class FilterBuilder {
-  FilterOptions filterOptions;
-
-  FilterBuilder({required this.filterOptions});
-
-  build(Item item) {
-    bool result = true;
-
-    if (filterOptions.buttonFilterType == ButtonFilterType.critical) {
-      result =  _isCritical(item);
-    }
-    if (filterOptions.buttonFilterType == ButtonFilterType.sensor) {
-      result = _isSensor(item);
-    }
-    if (filterOptions.name != null && filterOptions.name!.isNotEmpty) {
-      result = !result ? _namePredicate(item) : result && _namePredicate(item);
+    if (copyParent.hasParent) {
+      final granfather = _findParent(allItems, pushedParents, copyParent);
+      if (granfather.subItems.length > 1) {
+        return pushedParents[granfather.id]!..addIfNotExists(copyParent);
+      }
+      return granfather;
     }
 
-    return result;
+    return copyParent;
   }
 
-  _namePredicate(Item item) {
-    final name = filterOptions.name!.toLowerCase();
-    return item.name.toLowerCase().contains(name) &&
-        item.subItems.any(
-          (subItem) =>
-              subItem.name.toLowerCase().contains(name) &&
-              subItem.subItems.any(
-                (subSubItem) =>
-                    subSubItem.name.toLowerCase().contains(name) &&
-                    subSubItem.subItems.any(
-                      (subSubSubItem) =>
-                          subSubSubItem.name.toLowerCase().contains(name),
-                    ),
-              ),
-        );
+  void _filterItems(FilterOptions options, List<Item> items, Set<Item> result,
+      Map<String, Item> acumulador) {
+    for (var item in items) {
+      acumulador[item.id] = item;
+      _filterItem(options, item, result);
+      if (item.subItems.isNotEmpty) {
+        _filterItems(options, item.subItems, result, acumulador);
+      }
+    }
   }
 
-  _isCritical(Item item) {
-    return (item is Asset &&
-            item.status != null &&
-            item.status!.toLowerCase().contains('alert')) ||
-        item.subItems.any((subItem) =>
-            subItem is Asset &&
-                subItem.status != null &&
-                subItem.status!.toLowerCase().contains('alert') ||
-            subItem.subItems.any((subSubItem) =>
-                subSubItem is Asset &&
-                    subSubItem.status != null &&
-                    subSubItem.status!.toLowerCase().contains('alert') ||
-                subSubItem.subItems.any((subSubSubItem) =>
-                    subSubSubItem is Asset &&
-                    subSubSubItem.status != null &&
-                    subSubSubItem.status!.toLowerCase().contains('alert'))));
-  }
-
-  _isSensor(Item item) {
-    return (item is Asset && item.sensorType != null) ||
-        item.subItems.any((subItem) =>
-            (subItem is Asset && subItem.sensorType != null) ||
-            subItem.subItems.any((subSubItem) =>
-                (subSubItem is Asset && subSubItem.sensorType != null) ||
-                subSubItem.subItems.any((subSubSubItem) =>
-                    (subSubSubItem is Asset &&
-                        subSubSubItem.sensorType != null))));
+  void _filterItem(FilterOptions options, Item item, Set<Item> result) {
+    if (options.hasName && item.isSameName(options.name!)) {
+      result.add(item.copy());
+    }
+    if (options.hasSensorSelected && item.isSensor) {
+      result.add(item.copy());
+    }
+    if (options.hasCriticalSelected && item.isCritical) {
+      result.add(item.copy());
+    }
   }
 }
-

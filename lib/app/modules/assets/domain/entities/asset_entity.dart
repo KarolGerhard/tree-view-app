@@ -25,8 +25,7 @@ class AssetEntity {
       locationId: json['locationId'],
       parentId: json['parentId'],
       sensorType: json['sensorType'],
-      status: json['status'],
-      // unit: json['unit'],
+      status: json['status']
     );
   }
 

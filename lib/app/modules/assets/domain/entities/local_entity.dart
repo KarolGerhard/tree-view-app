@@ -11,8 +11,7 @@ class LocalEntity {
     return LocalEntity(
       name: json['name'],
       id: json['id'],
-      parentId: json['parentId'],
-      // unit: json['unit'],
+      parentId: json['parentId']
     );
   }
 

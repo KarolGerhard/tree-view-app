@@ -6,13 +6,13 @@ import 'package:tree_view_desafio/app/modules/assets/presentation/utils/theme.da
 import 'home_controller.dart';
 
 class HomePage extends StatelessWidget {
-  // final String assetName = 'assets/images/logo-tractian.svg';
-  final Widget svgIcon = SvgPicture.asset(
-  'assets/images/logo-tractian.svg',
-  colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-  semanticsLabel: 'Tractian Logo'
- 
-);
+  final Widget svgIcon = SvgPicture.asset('assets/images/logo-tractian.svg',
+      width: 100.0,
+      height: 20.0,
+      colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+      semanticsLabel: 'Tractian Logo');
+
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
                   onTap: () => Get.toNamed('/assets', arguments: 'tobias'),
                   child: Container(
                     padding: const EdgeInsets.all(12),
-                    height: 100, 
+                    height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: ThemeApp.theme.primaryColor,
@@ -125,18 +125,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                     
-                 
-                
-              //   FilledButton.icon(
-              //       onPressed: () {
-              //         debugPrint("clicou");
-              //         Get.toNamed('/assets');
-              //       },
-              //       icon: const Icon(Icons.account_box),
-              //       label: const Text("Jaguar Unit")),
-              ], 
-            
+              ],
             ),
           ),
         ),

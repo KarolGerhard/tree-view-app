@@ -12,8 +12,6 @@ class PopulateData implements IPopulateData {
   final IAssetsRepository assetsRepository;
   final ILocalRepository localRepository;
 
- 
-
   PopulateData(
       this.fileRepository, this.assetsRepository, this.localRepository);
 

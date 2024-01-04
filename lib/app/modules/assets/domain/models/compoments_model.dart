@@ -3,9 +3,14 @@ import 'asset_model.dart';
 import 'item_model.dart';
 
 class Component extends Asset {
-  Component(String id, String name, String? locationId, String? sensorType,
-      String? status)
-      : super(id, name, locationId, sensorType, status);
+  Component(
+    String id,
+    String name,
+    String? locationId,
+    String? sensorType,
+    String? status, {
+    super.parentId,
+  }) : super(id, name, locationId, sensorType, status);
   factory Component.fromEntity(AssetEntity assetEntity) {
     return Component(
       assetEntity.id,
@@ -13,6 +18,19 @@ class Component extends Asset {
       assetEntity.locationId,
       assetEntity.sensorType,
       assetEntity.status,
+      parentId: assetEntity.parentId,
+    );
+  }
+
+  @override
+  Component copy() {
+    return Component(
+      id,
+      name,
+      locationId,
+      sensorType,
+      status,
+      parentId: parentId,
     );
   }
 

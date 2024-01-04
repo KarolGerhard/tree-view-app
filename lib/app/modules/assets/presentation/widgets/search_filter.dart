@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tree_view_desafio/app/modules/assets/domain/usecases/filter_data.dart';
 import 'package:tree_view_desafio/app/modules/assets/presentation/widgets/select_filter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../domain/models/button_filter_type.dart';
+import '../../domain/models/filter_options.dart';
 
 class SearchFilter extends StatefulWidget {
   final String? initialValue;
@@ -21,6 +20,7 @@ class SearchFilter extends StatefulWidget {
 }
 
 class _SearchFilterState extends State<SearchFilter> {
+  final searchController = TextEditingController();
   String currentValue = '';
   ButtonFilterType currentFilter = ButtonFilterType.none;
 
@@ -53,11 +53,12 @@ class _SearchFilterState extends State<SearchFilter> {
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             child: TextFormField(
+              controller: searchController,
               cursorColor: Colors.grey,
               style: GoogleFonts.inter(
                   textStyle: const TextStyle(color: Color(0xFF8e98a3))),
               onChanged: _onChanged,
-              initialValue: currentValue,
+              // initialValue: currentValue,
               decoration: InputDecoration(
                 fillColor: const Color(0xFFEAEFF3),
                 hintText: "Buscar Ativo ou Local",
@@ -71,13 +72,20 @@ class _SearchFilterState extends State<SearchFilter> {
                   color: Color(0xFF8e98a3),
                   size: 24,
                 ),
-                suffix: IconButton(
-                  icon: const Icon(
-                    Icons.close,
-                    color: Color(0xFF8e98a3),
-                    size: 18,
+                suffix: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: IconButton(
+                    
+                    icon: const Icon(
+                      Icons.close,
+                      color: Color(0xFF8e98a3),
+                      size: 24,
+                    ),
+                    onPressed: () {
+                      searchController.clear();
+                      _onChanged('');
+                    },
                   ),
-                  onPressed: () => setState(() => currentValue = ''),
                 ),
               ),
             ),
