@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:tree_view_desafio/app/modules/assets/presentation/utils/theme.dart';
 
+import '../assets/presentation/utils/theme.dart';
 import 'home_controller.dart';
 
 class HomePage extends StatelessWidget {
-  final Widget svgIcon = SvgPicture.asset('assets/images/logo-tractian.svg',
+  final Widget svgIcon = SvgPicture.asset('assets/images/logo.svg',
       width: 100.0,
       height: 20.0,
       colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-      semanticsLabel: 'Tractian Logo');
+      semanticsLabel: 'Logo');
 
   HomePage({super.key});
 

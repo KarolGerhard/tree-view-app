@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:tree_view_desafio/app/modules/assets/domain/usecases/filter_data.dart';
-import 'package:tree_view_desafio/app/modules/assets/domain/usecases/list_data.dart';
 import '../data/assets_repository.dart';
 import '../data/file_repository.dart';
 import '../data/local_repository.dart';
+import '../domain/usecases/filter_data.dart';
+import '../domain/usecases/list_data.dart';
 import '../domain/usecases/populate_data.dart';
 import '../presentation/assets_controller.dart';
 

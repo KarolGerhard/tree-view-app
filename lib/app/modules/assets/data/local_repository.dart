@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:tree_view_desafio/app/modules/assets/data/database_helper.dart';
-import 'package:tree_view_desafio/app/modules/assets/domain/entities/local_entity.dart';
+
+import '../domain/entities/local_entity.dart';
+import 'database_helper.dart';
 
 abstract class ILocalRepository {
   Future<void> saveLocations(List<LocalEntity> locations);

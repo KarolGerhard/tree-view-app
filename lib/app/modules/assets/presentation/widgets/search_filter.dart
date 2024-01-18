@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tree_view_desafio/app/modules/assets/presentation/widgets/select_filter.dart';
-
 import '../../domain/models/button_filter_type.dart';
 import '../../domain/models/filter_options.dart';
+import 'select_filter.dart';
 
 class SearchFilter extends StatefulWidget {
   final String? initialValue;

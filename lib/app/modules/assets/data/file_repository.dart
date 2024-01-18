@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' as root_bundle;
-import 'package:tree_view_desafio/app/modules/assets/domain/entities/asset_entity.dart';
-import 'package:tree_view_desafio/app/modules/assets/domain/entities/local_entity.dart';
+
+import '../domain/entities/asset_entity.dart';
+import '../domain/entities/local_entity.dart';
 
 abstract class IFileRepository {
   Future<List<AssetEntity>> getAssetsFromFile(String unit);

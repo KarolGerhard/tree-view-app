@@ -4,11 +4,11 @@ import 'package:animated_tree_view/tree_view/widgets/expansion_indicator.dart';
 import 'package:animated_tree_view/tree_view/widgets/indent.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tree_view_desafio/app/modules/assets/presentation/utils/tree_extension.dart';
-import 'package:tree_view_desafio/app/modules/assets/presentation/widgets/search_filter.dart';
+import 'package:tree_view/app/modules/assets/presentation/utils/tree_extension.dart';
 import '../domain/models/item_model.dart';
 import 'assets_controller.dart';
 import 'utils/item_extensions.dart';
+import 'widgets/search_filter.dart';
 
 class AssetsPage extends StatelessWidget {
   const AssetsPage({super.key});

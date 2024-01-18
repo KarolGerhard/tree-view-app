@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:tree_view_desafio/app/modules/assets/data/database_helper.dart';
-import 'package:tree_view_desafio/app/modules/assets/domain/entities/asset_entity.dart';
+
+import '../domain/entities/asset_entity.dart';
+import 'database_helper.dart';
 
 abstract class IAssetsRepository {
   Future<void> saveAssets(List<AssetEntity> assets);

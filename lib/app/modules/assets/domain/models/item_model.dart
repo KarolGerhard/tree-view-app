@@ -1,5 +1,5 @@
-import 'package:tree_view_desafio/app/modules/assets/domain/models/asset_model.dart';
-import 'package:tree_view_desafio/app/modules/assets/domain/models/compoments_model.dart';
+import 'asset_model.dart';
+import 'compoments_model.dart';
 
 class Item {
   final String id;

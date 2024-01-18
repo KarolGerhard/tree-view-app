@@ -1,8 +1,7 @@
-import 'package:tree_view_desafio/app/modules/assets/data/assets_repository.dart';
-import 'package:tree_view_desafio/app/modules/assets/data/local_repository.dart';
-import 'package:tree_view_desafio/app/modules/assets/domain/entities/asset_entity.dart';
-import 'package:tree_view_desafio/app/modules/assets/domain/entities/local_entity.dart';
-
+import 'package:tree_view/app/modules/assets/domain/entities/asset_entity.dart';
+import 'package:tree_view/app/modules/assets/domain/entities/local_entity.dart';
+import '../../data/assets_repository.dart';
+import '../../data/local_repository.dart';
 import '../models/asset_model.dart';
 import '../models/compoments_model.dart';
 import '../models/item_model.dart';
